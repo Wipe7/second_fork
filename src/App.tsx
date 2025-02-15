@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import styled from 'styled-components'
 import Header from './components/Header'
 import Produtos from './containers/Produtos'
 
@@ -10,6 +11,16 @@ export type Produto = {
   preco: number
   imagem: string
 }
+
+const Container = styled.div`
+  max-width: 1024px;
+  width: 100%;
+  margin: 0 auto;
+
+  @media (max-width: 1024px) {
+    max-width: 80%;
+  }
+`
 
 function App() {
   const [produtos, setProdutos] = useState<Produto[]>([])
@@ -42,7 +53,7 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      <div className="container">
+      <Container>
         <Header favoritos={favoritos} itensNoCarrinho={carrinho} />
         <Produtos
           produtos={produtos}
@@ -50,7 +61,7 @@ function App() {
           favoritar={favoritar}
           adicionarAoCarrinho={adicionarAoCarrinho}
         />
-      </div>
+      </Container>
     </>
   )
 }

@@ -1,3 +1,4 @@
+import styled from 'styled-components'
 import { Produto as ProdutoType } from '../../App'
 import * as S from './styles'
 

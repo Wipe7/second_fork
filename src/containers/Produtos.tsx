@@ -1,43 +1,51 @@
+import styled from 'styled-components'
 import { Produto as ProdutoType } from '../App'
-import Produto from '../components/Produto'
+import ProdutoComponent from '../components/Produto'
 
-import * as S from './styles'
+const ProdutosGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  margin: 40px 0;
+`
+
+const LoadingMessage = styled.div`
+  text-align: center;
+  padding: 20px;
+`
+
+const ErrorMessage = styled.div`
+  text-align: center;
+  padding: 20px;
+  color: red;
+`
 
 type Props = {
   produtos: ProdutoType[]
   favoritos: ProdutoType[]
-  adicionarAoCarrinho: (produto: ProdutoType) => void
   favoritar: (produto: ProdutoType) => void
+  adicionarAoCarrinho: (produto: ProdutoType) => void
 }
 
-const ProdutosComponent = ({
+const ProdutosContainer = ({
   produtos,
   favoritos,
-  adicionarAoCarrinho,
-  favoritar
+  favoritar,
+  adicionarAoCarrinho
 }: Props) => {
-  const produtoEstaNosFavoritos = (produto: ProdutoType) => {
-    const produtoId = produto.id
-    const IdsDosFavoritos = favoritos.map((f) => f.id)
-
-    return IdsDosFavoritos.includes(produtoId)
-  }
-
   return (
-    <>
-      <S.Produtos>
-        {produtos.map((produto) => (
-          <Produto
-            estaNosFavoritos={produtoEstaNosFavoritos(produto)}
-            key={produto.id}
-            produto={produto}
-            favoritar={favoritar}
-            aoComprar={adicionarAoCarrinho}
-          />
-        ))}
-      </S.Produtos>
-    </>
+    <ProdutosGrid>
+      {produtos.map((produto) => (
+        <ProdutoComponent
+          key={produto.id}
+          produto={produto}
+          estaNosFavoritos={favoritos.some((f) => f.id === produto.id)}
+          favoritar={favoritar}
+          aoComprar={adicionarAoCarrinho}
+        />
+      ))}
+    </ProdutosGrid>
   )
 }
 
-export default ProdutosComponent
+export default ProdutosContainer
